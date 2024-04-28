@@ -152,6 +152,12 @@ public class ProjectGenerator {
 					.orderedStream()
 					.forEach((customizer) -> customizer.customize(mutableDescription));
 			}
+
+			if (description instanceof MyMutableProjectDescription myMutableProjectDescription) {
+				var myMutable = new MyMutableProjectDescriptionWrap(myMutableProjectDescription);
+				context.registerBean(MyMutableProjectDescriptionWrap.class, () -> myMutable);
+			}
+
 			return description;
 		};
 	}

@@ -17,6 +17,8 @@
 package io.spring.initializr.generator.spring.configuration;
 
 import io.spring.initializr.generator.buildsystem.Build;
+import io.spring.initializr.generator.project.MyMutableProjectDescription;
+import io.spring.initializr.generator.project.MyMutableProjectDescriptionWrap;
 import io.spring.initializr.generator.project.ProjectGenerationConfiguration;
 import io.spring.initializr.metadata.InitializrMetadata;
 
@@ -32,8 +34,8 @@ import org.springframework.context.annotation.Bean;
 public class ApplicationConfigurationProjectGenerationConfiguration {
 
 	@Bean
-	WebFoldersContributor webFoldersContributor(Build build, InitializrMetadata metadata) {
-		return new WebFoldersContributor(build, metadata);
+	WebFoldersContributor webFoldersContributor(Build build, InitializrMetadata metadata, MyMutableProjectDescriptionWrap wrap) {
+		return new WebFoldersContributor(build, metadata, wrap);
 	}
 
 }

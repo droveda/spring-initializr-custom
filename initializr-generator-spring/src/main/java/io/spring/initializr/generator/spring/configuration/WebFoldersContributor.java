@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import io.spring.initializr.generator.buildsystem.Build;
+import io.spring.initializr.generator.project.MyMutableProjectDescriptionWrap;
 import io.spring.initializr.generator.project.contributor.ProjectContributor;
 import io.spring.initializr.generator.spring.build.BuildMetadataResolver;
 import io.spring.initializr.metadata.InitializrMetadata;
@@ -38,10 +39,12 @@ public class WebFoldersContributor implements ProjectContributor {
 	private final Build build;
 
 	private final BuildMetadataResolver buildMetadataResolver;
+	private final MyMutableProjectDescriptionWrap wrap;
 
-	public WebFoldersContributor(Build build, InitializrMetadata metadata) {
+	public WebFoldersContributor(Build build, InitializrMetadata metadata, MyMutableProjectDescriptionWrap wrap) {
 		this.build = build;
 		this.buildMetadataResolver = new BuildMetadataResolver(metadata);
+		this.wrap = wrap;
 	}
 
 	@Override

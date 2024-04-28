@@ -1,5 +1,9 @@
 initializr:
   env:
+    repositories:
+      my-api-repo-1:
+        name: repo1
+        url: https://example.com/repo1
     kotlin:
       default-version: "1.9.22"
   group-id:
@@ -10,6 +14,17 @@ initializr:
         - name: Web
           id: web
           description: Servlet web application with Spring MVC and Tomcat
+          facets:
+            - web
+    - name: Tech
+      content:
+        - name: Acme
+          id: acme
+          groupId: com.example.acme
+          artifactId: acme
+          version: 1.2.0.RELEASE
+          description: A solid description for this dependency
+          repository: my-api-repo-1
   languages:
     - name: Java
       id: java

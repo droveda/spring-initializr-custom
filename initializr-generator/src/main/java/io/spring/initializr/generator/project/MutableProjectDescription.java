@@ -35,31 +35,31 @@ import org.springframework.util.StringUtils;
  */
 public class MutableProjectDescription implements ProjectDescription {
 
-	private Version platformVersion;
+	protected Version platformVersion;
 
-	private BuildSystem buildSystem;
+	protected BuildSystem buildSystem;
 
-	private Packaging packaging;
+	protected Packaging packaging;
 
-	private Language language;
+	protected Language language;
 
-	private final Map<String, Dependency> requestedDependencies = new LinkedHashMap<>();
+	protected final Map<String, Dependency> requestedDependencies = new LinkedHashMap<>();
 
-	private String groupId;
+	protected String groupId;
 
-	private String artifactId;
+	protected String artifactId;
 
-	private String version;
+	protected String version;
 
-	private String name;
+	protected String name;
 
-	private String description;
+	protected String description;
 
-	private String applicationName;
+	protected String applicationName;
 
-	private String packageName;
+	protected String packageName;
 
-	private String baseDirectory;
+	protected String baseDirectory;
 
 	public MutableProjectDescription() {
 	}

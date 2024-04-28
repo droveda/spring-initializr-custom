@@ -34,16 +34,8 @@ import io.spring.initializr.metadata.InitializrMetadata;
 import io.spring.initializr.metadata.InitializrMetadataBuilder;
 import io.spring.initializr.metadata.InitializrMetadataProvider;
 import io.spring.initializr.metadata.InitializrProperties;
-import io.spring.initializr.web.controller.CommandLineMetadataController;
-import io.spring.initializr.web.controller.DefaultProjectGenerationController;
-import io.spring.initializr.web.controller.ProjectGenerationController;
-import io.spring.initializr.web.controller.ProjectMetadataController;
-import io.spring.initializr.web.controller.SpringCliDistributionController;
-import io.spring.initializr.web.project.DefaultProjectRequestPlatformVersionTransformer;
-import io.spring.initializr.web.project.DefaultProjectRequestToDescriptionConverter;
-import io.spring.initializr.web.project.ProjectGenerationInvoker;
-import io.spring.initializr.web.project.ProjectRequest;
-import io.spring.initializr.web.project.ProjectRequestPlatformVersionTransformer;
+import io.spring.initializr.web.controller.*;
+import io.spring.initializr.web.project.*;
 import io.spring.initializr.web.support.DefaultDependencyMetadataProvider;
 import io.spring.initializr.web.support.DefaultInitializrMetadataProvider;
 import io.spring.initializr.web.support.InitializrMetadataUpdateStrategy;
@@ -53,6 +45,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
@@ -138,7 +131,7 @@ public class InitializrAutoConfiguration {
 		}
 
 		@Bean
-		@ConditionalOnMissingBean
+		@ConditionalOnProperty(value = "legacy.enabled", havingValue = "true")
 		ProjectGenerationController<ProjectRequest> projectGenerationController(
 				InitializrMetadataProvider metadataProvider,
 				ObjectProvider<ProjectRequestPlatformVersionTransformer> platformVersionTransformer,
@@ -147,6 +140,20 @@ public class InitializrAutoConfiguration {
 					applicationContext, new DefaultProjectRequestToDescriptionConverter(platformVersionTransformer
 						.getIfAvailable(DefaultProjectRequestPlatformVersionTransformer::new)));
 			return new DefaultProjectGenerationController(metadataProvider, projectGenerationInvoker);
+		}
+
+		@Bean
+		@ConditionalOnMissingBean
+		CustomProjectGenerationController myProjectGenerationController(
+				InitializrMetadataProvider metadataProvider,
+				ObjectProvider<ProjectRequestPlatformVersionTransformer> platformVersionTransformer,
+				ApplicationContext applicationContext) {
+
+			ProjectGenerationInvoker<MyProjectRequest> projectGenerationInvoker = new ProjectGenerationInvoker<>(
+					applicationContext, new MyProjectRequestToDescriptionConverter(platformVersionTransformer
+					    .getIfAvailable(DefaultProjectRequestPlatformVersionTransformer::new)));
+
+			return new CustomProjectGenerationController(metadataProvider, projectGenerationInvoker);
 		}
 
 		@Bean
