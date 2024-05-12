@@ -6,6 +6,7 @@
 ```
 curl --location 'http://localhost:8080/generate.zip' \
 --header 'Content-Type: application/json' \
+--output my-file.zip \
 --data '{
     "costCenter": "ABC",
     "type": "maven-project",
